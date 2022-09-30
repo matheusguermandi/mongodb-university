@@ -144,3 +144,17 @@ db.inspections.deleteMany({ "test": 1 })
 db.inspection.drop()
 ``` 
 
+## Comparison Query Operators
+
+---
+
+| Operators | Description                                                                                  | Examples                                                        |
+| --------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| $eq       | It is used to match the values of the fields that are equal to a specified value.            | db.contributor.find({branch: {$eq: "CSE"}}).pretty()            |
+| $ne       | It is used to match all values of the field that are not equal to a specified value.         | db.contributor.find({branch: {$ne: "CSE"}}).pretty()            |
+| $gt       | It is used to match values of the fields that are greater than a specified value.            | db.contributor.find({salary: {$gt: 1000}}).pretty()             |
+| $gte      | It is used to match values of the fields that are greater than equal to the specified value. | db.contributor.find({joiningYear: {$gte: 2017}})                |
+| $lt       | It is used to match values of the fields that are less than a specified valueo               | db.contributor.find({salary: {$lt: 2000}}).pretty()             |
+| $lte      | It is used to match values of the fields that are less than equals to the specified value    | db.contributor.find({salary: {$lte: 1000}}).pretty()            |
+| $in       | It is used to match any of the values specified in an array.                                 | db.contributor.find({name: {$in: ["Amit", "Suman"]}}).pretty()  |
+| $nin      | It is used to match none of the values specified in an array.                                | db.contributor.find({name: {$nin: ["Amit", "Suman"]}}).pretty() |
