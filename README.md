@@ -158,3 +158,14 @@ db.inspection.drop()
 | $lte      | It is used to match values of the fields that are less than equals to the specified value    | db.contributor.find({salary: {$lte: 1000}}).pretty()            |
 | $in       | It is used to match any of the values specified in an array.                                 | db.contributor.find({name: {$in: ["Amit", "Suman"]}}).pretty()  |
 | $nin      | It is used to match none of the values specified in an array.                                | db.contributor.find({name: {$nin: ["Amit", "Suman"]}}).pretty() |
+
+## Logical Query Operators
+
+---
+
+| Operators | Description                                                                                                                   | Examples                                                                     |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| $and      | It is used to join query clauses with a logical AND and return all documents that match the given conditions of both clauses. | db.contributor.find({$and: [{branch: "CSE"}, {joiningYear: 2018}]}).pretty() |
+| $or       | It is used to join query clauses with a logical OR and return all documents that match the given conditions of either clause. | db.contributor.find({$or: [{branch: "ECE"}, {joiningYear: 2017}]}).pretty()  |
+| $not      | It is used to invert the effect of the query expressions and return documents that does not match the query expression.       | db.contributor.find({salary: {$not: {$gt: 2000}}}).pretty()                  |
+| $nor      | It is used to join query clauses with a logical NOR and return all documents that fail to match both clauses.                 | db.contributor.find({$nor: [{salary: 3000}, {branch: "ECE"}]}).pretty()      |
