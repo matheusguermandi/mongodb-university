@@ -10,7 +10,6 @@
 
 - Chapter 4: The Life Cycle of an Application and Additional Resources
 
-
 ## Connect
 
 ---
@@ -170,7 +169,6 @@ db.inspection.drop()
 | $not      | It is used to invert the effect of the query expressions and return documents that does not match the query expression.       | db.contributor.find({salary: {$not: {$gt: 2000}}}).pretty()                  |
 | $nor      | It is used to join query clauses with a logical NOR and return all documents that fail to match both clauses.                 | db.contributor.find({$nor: [{salary: 3000}, {branch: "ECE"}]}).pretty()      |
 
-
 ## Expressive Query Operator
 
 ---
@@ -179,10 +177,8 @@ Allows the use of aggregation expressions within the query language.
 
 ```bash
 # Simple example
-
 db.monthlyBudget.find( { $expr: { $gt: [ "$spent" , "$budget" ] } } )
 ``` 
-
 
 ## Exercises
 
@@ -192,5 +188,21 @@ db.monthlyBudget.find( { $expr: { $gt: [ "$spent" , "$budget" ] } } )
 db.companies.find({ "$or": [ { "$and": [ { "founded_year": 2004 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] }, { "$and": [ { "founded_month": 10 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] } ] })
 
 db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } ).count()
+
+# Chapter 4: Advanced CRUD Operations - Lab 1: Array Operators
+db.listingsAndReviews.find({ "$and": [ { "accommodates": { "$gt": 6 } }, { "reviews": { "$size": 50 } } ] })
+
+# Chapter 4: Advanced CRUD Operations - Lab 2: Array Operators
+db.listingsAndReviews.find({ "$and": [ { "property_type": { "$eq": "House" } }, { "amenities": "Changing table" } ] }).count()
+
+# Chapter 4: Advanced CRUD Operations - Lab: Array Operators and Projection
+db.companies.find({ "offices": { "$elemMatch": { "city": { "$eq": "Seattle" } } } }).count()
+
+# Chapter 4: Advanced CRUD Operations - Lab 1: Querying Arrays and Sub-Documents
+db.trips.find({"start station location.coordinates": {"$lt": -74}}).count()
+
+# Chapter 4: Advanced CRUD Operations - Lab 2: Querying Arrays and Sub-Documents
+sample_training> db.inspections.find({"address.city": {"$eq":"NEW YORK"}}).count()
+
 ``` 
 
