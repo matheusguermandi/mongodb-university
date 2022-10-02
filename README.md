@@ -211,6 +211,26 @@ db.companies.find({ "funding_rounds": { "$size": 8 } }, { "name": 1, "_id": 0 })
 db.listingsAndReviews.find({ "amenities.0": "Internet" }, { "name": 1, "address": 1 }).pretty()
 ```
 
+## Project Fields to Return from Query (Projection)
+
+---
+
+```bash
+# Simple example
+db.inventory.find( { status: "A" }, { item: 1, status: 1 } )
+
+# Suppress _id Field
+db.inventory.find( { status: "A" }, { item: 1, status: 1, _id: 0 } )
+
+# Return All But the Excluded Fields
+db.inventory.find( { status: "A" }, { status: 0, instock: 0 } )
+
+# Project Specific Array Elements in the Returned Array
+db.inventory.find( { status: "A" }, { item: 1, status: 1, instock: { $slice: -1 } } )
+
+# Array Operator and Projection ($elemMatch)
+db.grades.find({ "class_id": 431 }, { "scores": { "$elemMatch": { "score": { "$gt": 85 } } } }).pretty()
+```
 
 ## Exercises
 
