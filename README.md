@@ -180,6 +180,38 @@ Allows the use of aggregation expressions within the query language.
 db.monthlyBudget.find( { $expr: { $gt: [ "$spent" , "$budget" ] } } )
 ``` 
 
+
+## Array Operators
+
+---
+
+```bash
+db.listingsAndReviews.find({ "amenities": {
+                                  "$size": 20,
+                                  "$all": [ "Internet", "Wifi",  "Kitchen",
+                                           "Heating", "Family/kid friendly",
+                                           "Washer", "Dryer", "Essentials",
+                                           "Shampoo", "Hangers",
+                                           "Hair dryer", "Iron",
+                                           "Laptop friendly workspace" ]
+                                         }
+                            }).pretty()
+
+db.listingsAndReviews.find({ "amenities": { "$all": [ "Free parking on premises", "Wifi", "Air conditioning" ] },
+                             "bedrooms": { "$gte":  2 }
+                            }).pretty()
+
+db.companies.find({ "relationships":
+                      { "$elemMatch": { "is_past": true,
+                                        "person.first_name": "Mark" } } },
+                  { "name": 1 }).count()
+
+db.companies.find({ "funding_rounds": { "$size": 8 } }, { "name": 1, "_id": 0 })
+
+db.listingsAndReviews.find({ "amenities.0": "Internet" }, { "name": 1, "address": 1 }).pretty()
+```
+
+
 ## Exercises
 
 --- 
