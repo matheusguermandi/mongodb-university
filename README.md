@@ -170,6 +170,20 @@ db.inspection.drop()
 | $not      | It is used to invert the effect of the query expressions and return documents that does not match the query expression.       | db.contributor.find({salary: {$not: {$gt: 2000}}}).pretty()                  |
 | $nor      | It is used to join query clauses with a logical NOR and return all documents that fail to match both clauses.                 | db.contributor.find({$nor: [{salary: 3000}, {branch: "ECE"}]}).pretty()      |
 
+
+## Expressive Query Operator
+
+---
+
+Allows the use of aggregation expressions within the query language.
+
+```bash
+# Simple example
+
+db.monthlyBudget.find( { $expr: { $gt: [ "$spent" , "$budget" ] } } )
+``` 
+
+
 ## Exercises
 
 --- 
