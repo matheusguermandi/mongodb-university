@@ -232,6 +232,41 @@ db.inventory.find( { status: "A" }, { item: 1, status: 1, instock: { $slice: -1 
 db.grades.find({ "class_id": 431 }, { "scores": { "$elemMatch": { "score": { "$gt": 85 } } } }).pretty()
 ```
 
+## Aggregation Framework
+
+Aggregation operations process multiple documents and return computed results. You can use aggregation operations to:
+
+- Group values from multiple documents together.
+
+- Perform operations on the grouped data to return a single result.
+
+- Analyze data changes over time.
+
+To perform aggregation operations, you can use:
+
+- Aggregation pipelines, which are the preferred method for performing aggregations.
+
+- Single purpose aggregation methods, which are simple but lack the capabilities of an aggregation pipeline.
+
+---
+
+```bash
+db.listingsAndReviews.aggregate([
+                                  { "$match": { "amenities": "Wifi" } },
+                                  { "$project": { "price": 1,
+                                                  "address": 1,
+                                                  "_id": 0 }}]).pretty()
+
+db.listingsAndReviews.aggregate([ { "$project": { "address": 1, "_id": 0 }},
+                                  { "$group": { "_id": "$address.country" }}])
+                                  
+db.listingsAndReviews.aggregate([
+                                  { "$project": { "address": 1, "_id": 0 }},
+                                  { "$group": { "_id": "$address.country",
+                                                "count": { "$sum": 1 } } }
+                                ])                                                                                    
+```
+
 ## Exercises
 
 --- 
