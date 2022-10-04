@@ -234,6 +234,8 @@ db.grades.find({ "class_id": 431 }, { "scores": { "$elemMatch": { "score": { "$g
 
 ## Aggregation Framework
 
+---
+
 Aggregation operations process multiple documents and return computed results. You can use aggregation operations to:
 
 - Group values from multiple documents together.
@@ -248,7 +250,7 @@ To perform aggregation operations, you can use:
 
 - Single purpose aggregation methods, which are simple but lack the capabilities of an aggregation pipeline.
 
----
+<br/>
 
 ```bash
 db.listingsAndReviews.aggregate([
@@ -267,6 +269,25 @@ db.listingsAndReviews.aggregate([
                                 ])                                                                                    
 ```
 
+
+## sort() and limit()
+
+--- 
+
+```bash
+use sample_training
+
+db.zips.find().sort({ "pop": 1 }).limit(1)
+
+db.zips.find({ "pop": 0 }).count()
+
+db.zips.find().sort({ "pop": -1 }).limit(1)
+
+db.zips.find().sort({ "pop": -1 }).limit(10)
+
+db.zips.find().sort({ "pop": 1, "city": -1 })
+```
+
 ## Exercises
 
 --- 
@@ -277,19 +298,35 @@ db.companies.find({ "$or": [ { "$and": [ { "founded_year": 2004 }, { "$or": [ { 
 db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } ).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab 1: Array Operators
-db.listingsAndReviews.find({ "$and": [ { "accommodates": { "$gt": 6 } }, { "reviews": { "$size": 50 } } ] })
+  db.listingsAndReviews.find({ "$and": [ { "accommodates": { "$gt": 6 } }, { "reviews": { "$size": 50 } } ] })
 
 # Chapter 4: Advanced CRUD Operations - Lab 2: Array Operators
-db.listingsAndReviews.find({ "$and": [ { "property_type": { "$eq": "House" } }, { "amenities": "Changing table" } ] }).count()
+  db.listingsAndReviews.find({ "$and": [ { "property_type": { "$eq": "House" } }, { "amenities": "Changing table" } ] }).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab: Array Operators and Projection
-db.companies.find({ "offices": { "$elemMatch": { "city": { "$eq": "Seattle" } } } }).count()
+  db.companies.find({ "offices": { "$elemMatch": { "city": { "$eq": "Seattle" } } } }).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab 1: Querying Arrays and Sub-Documents
-db.trips.find({"start station location.coordinates": {"$lt": -74}}).count()
+  db.trips.find({"start station location.coordinates": {"$lt": -74}}).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab 2: Querying Arrays and Sub-Documents
-sample_training> db.inspections.find({"address.city": {"$eq":"NEW YORK"}}).count()
+  sample_training> db.inspections.find({"address.city": {"$eq":"NEW YORK"}}).count()
+
+# Chapter 5: Indexing and Aggregation Pipeline - Lab: Aggregation Framework
+  db.listingsAndReviews.aggregate([ { "$group": { "_id": "$room_type" } }])
+
+# Chapter 5: Indexing and Aggregation Pipeline - Quiz 1: sort() and limit()
+  db.companies.find({ "founded_year": { "$ne": null }},
+                  { "name": 1, "founded_year": 1 }
+                 ).sort({ "founded_year": 1 }).limit(5)   
+
+  # While the limit() and sort() methods are not listed in the correct order, MongoDB flips their order when executing the query, delivering the results that the question prompt is looking for.
+  db.companies.find({ "founded_year": { "$ne": null }},
+                      { "name": 1, "founded_year": 1 }
+                     ).limit(5).sort({ "founded_year": 1 })
+                   
+# Chapter 5: Indexing and Aggregation Pipeline - Quiz 2: sort() and limit()
+  sample_training> db.trips.find({"birth year": {"$ne": ''}}, {"birth year": 1}).sort({"birth year": -1}).limit(1)
 
 ``` 
 
