@@ -145,9 +145,21 @@ db.grades.findOneAndUpdate(
    { "name" : "R. Stiles" },
    { $inc: { "points" : 5 } }
 )
-  
+
 # The $inc operator increments the value
 # The $set operator replaces the value
+
+db.iot.updateOne({ "sensor": r.sensor, "date": r.date,
+                   "valcount": { "$lt": 48 } },
+                         { "$push": { "readings": { "v": r.value, "t": r.time } },
+                        "$inc": { "valcount": 1, "total": r.value } },
+                 { "upsert": true })
+                 
+# Upsert observations 
+# - By default upsert is set to false.
+# - When upsert is set to false and the query predicate returns an empty cursor then there will be no updated documents as a result of this operation.
+# - When upsert is set to true and the query predicate returns an empty cursor, the update operation creates a new document using the directive from the query predicate and the update predicate.
+
 ``` 
 
 ## Delete Command
@@ -287,6 +299,9 @@ db.listingsAndReviews.aggregate([
                                                 "count": { "$sum": 1 } } }
                                 ])                                                                                    
 ```
+
+
+
 
 ## Exercises
 
