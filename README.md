@@ -63,6 +63,25 @@ db.zips.find({"state": "NY", "city": "ALBANY"})
 db.zips.find({"state": "NY", "city": "ALBANY"}).pretty()
 ``` 
 
+
+## sort() and limit()
+
+--- 
+
+```bash
+use sample_training
+
+db.zips.find().sort({ "pop": 1 }).limit(1)
+
+db.zips.find({ "pop": 0 }).count()
+
+db.zips.find().sort({ "pop": -1 }).limit(1)
+
+db.zips.find().sort({ "pop": -1 }).limit(10)
+
+db.zips.find().sort({ "pop": 1, "city": -1 })
+```
+
 ## Insert Command
 
 ---
@@ -269,25 +288,6 @@ db.listingsAndReviews.aggregate([
                                 ])                                                                                    
 ```
 
-
-## sort() and limit()
-
---- 
-
-```bash
-use sample_training
-
-db.zips.find().sort({ "pop": 1 }).limit(1)
-
-db.zips.find({ "pop": 0 }).count()
-
-db.zips.find().sort({ "pop": -1 }).limit(1)
-
-db.zips.find().sort({ "pop": -1 }).limit(10)
-
-db.zips.find().sort({ "pop": 1, "city": -1 })
-```
-
 ## Exercises
 
 --- 
@@ -310,7 +310,7 @@ db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } 
   db.trips.find({"start station location.coordinates": {"$lt": -74}}).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab 2: Querying Arrays and Sub-Documents
-  sample_training> db.inspections.find({"address.city": {"$eq":"NEW YORK"}}).count()
+  db.inspections.find({"address.city": {"$eq":"NEW YORK"}}).count()
 
 # Chapter 5: Indexing and Aggregation Pipeline - Lab: Aggregation Framework
   db.listingsAndReviews.aggregate([ { "$group": { "_id": "$room_type" } }])
@@ -326,7 +326,7 @@ db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } 
                      ).limit(5).sort({ "founded_year": 1 })
                    
 # Chapter 5: Indexing and Aggregation Pipeline - Quiz 2: sort() and limit()
-  sample_training> db.trips.find({"birth year": {"$ne": ''}}, {"birth year": 1}).sort({"birth year": -1}).limit(1)
+  db.trips.find({"birth year": {"$ne": ''}}, {"birth year": 1}).sort({"birth year": -1}).limit(1)
 
 ``` 
 
