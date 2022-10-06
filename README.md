@@ -308,9 +308,32 @@ db.listingsAndReviews.aggregate([
 --- 
 
 ```bash
-db.companies.find({ "$or": [ { "$and": [ { "founded_year": 2004 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] }, { "$and": [ { "founded_month": 10 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] } ] })
+# Chapter 4: Advanced CRUD Operations - Lab 1: Comparison Operators
+  db.zips.find({ "pop": { "$lt": 1000 }}).count()
+  
+# Chapter 4: Advanced CRUD Operations - Lab 2: Comparison Operators
+  db.trips.find({ "birth year": { "$gt": 1998 }}).count()
+  db.trips.find({ "birth year": 1998 }).count()
+  
+# Chapter 4: Advanced CRUD Operations - Lab 3: Comparison Operators
+  db.routes.find({ "stops": { "$ne": 0 }}).pretty()
+  db.routes.find({ "stops": { "$gt": 0 }}).pretty()
 
-db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } ).count()
+# Chapter 4: Advanced CRUD Operations - Quiz 1: Logic Operators
+  db.inspections.find({ "result": "Out of Business", "sector": "Home Improvement Contractor - 100" }).count()
+
+# Chapter 4: Advanced CRUD Operations - Quiz 2: Logic Operators
+  db.inspections.find( { "$or": [ { "date": "Feb 20 2015" }, { "date": "Feb 21 2015" } ], "sector": { "$ne": "Cigarette Retail Dealer - 127" }}).pretty()
+  
+# Chapter 4: Advanced CRUD Operations - Lab 1: Logic Operators
+  db.zips.find({ "pop": { "$gte": 5000, "$lte": 1000000 }}).count()
+  db.zips.find({ "$nor": [ { "pop": { "$lt":5000 } }, { "pop": { "$gt": 1000000 } } ] } ).count()
+  
+# Chapter 4: Advanced CRUD Operations - Lab 2: Logic Operators
+  db.companies.find({ "$or": [ { "$and": [ { "founded_year": 2004 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] }, { "$and": [ { "founded_month": 10 }, { "$or": [ { "category_code": "social" }, { "category_code": "web" } ] } ] } ] })
+
+# Chapter 4: Advanced CRUD Operations - Lab: $expr
+  db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } ).count()
 
 # Chapter 4: Advanced CRUD Operations - Lab 1: Array Operators
   db.listingsAndReviews.find({ "$and": [ { "accommodates": { "$gt": 6 } }, { "reviews": { "$size": 50 } } ] })
@@ -331,17 +354,12 @@ db.companies.find({ "$expr": { "$eq": [ "$twitter_username", "$permalink" ] } } 
   db.listingsAndReviews.aggregate([ { "$group": { "_id": "$room_type" } }])
 
 # Chapter 5: Indexing and Aggregation Pipeline - Quiz 1: sort() and limit()
-  db.companies.find({ "founded_year": { "$ne": null }},
-                  { "name": 1, "founded_year": 1 }
-                 ).sort({ "founded_year": 1 }).limit(5)   
+  db.companies.find({ "founded_year": { "$ne": null }}, { "name": 1, "founded_year": 1 } ).sort({ "founded_year": 1 }).limit(5)
 
   # While the limit() and sort() methods are not listed in the correct order, MongoDB flips their order when executing the query, delivering the results that the question prompt is looking for.
-  db.companies.find({ "founded_year": { "$ne": null }},
-                      { "name": 1, "founded_year": 1 }
-                     ).limit(5).sort({ "founded_year": 1 })
+  db.companies.find({ "founded_year": { "$ne": null }}, { "name": 1, "founded_year": 1 } ).limit(5).sort({ "founded_year": 1 })
                    
 # Chapter 5: Indexing and Aggregation Pipeline - Quiz 2: sort() and limit()
   db.trips.find({"birth year": {"$ne": ''}}, {"birth year": 1}).sort({"birth year": -1}).limit(1)
-
 ``` 
 
