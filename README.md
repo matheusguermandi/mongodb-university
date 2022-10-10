@@ -200,6 +200,39 @@ db.inspection.drop()
 | $not      | It is used to invert the effect of the query expressions and return documents that does not match the query expression.       | db.contributor.find({salary: {$not: {$gt: 2000}}}).pretty()                  |
 | $nor      | It is used to join query clauses with a logical NOR and return all documents that fail to match both clauses.                 | db.contributor.find({$nor: [{salary: 3000}, {branch: "ECE"}]}).pretty()      |
 
+## Indexes
+
+---
+
+Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan, i.e. scan every document in a collection, to select those documents that match the query statement. If an appropriate index exists for a query, MongoDB can use the index to limit the number of documents it must inspect.
+
+Indexes are special data structures that store a small portion of the collection's data set in an easy to traverse form. The index stores the value of a specific field or set of fields, ordered by the value of the field. The ordering of the index entries supports efficient equality matches and range-based query operations. In addition, MongoDB can return sorted results by using the ordering in the index.
+
+The following diagram illustrates a query that selects and orders the matching documents using an index:
+
+![index-for-sort bakedsvg](https://user-images.githubusercontent.com/27836893/194845312-3a18f5bf-4318-4821-ac22-fc2dbda19514.svg)
+
+Fundamentally, indexes in MongoDB are similar to indexes in other database systems. MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents in a MongoDB collection.
+
+```bash
+# List All Indexes for a Database
+db.getCollectionNames().forEach(function(collection) {
+    indexes = db[collection].getIndexes();
+    print("Indexes for " + collection + ":");
+    printjson(indexes);
+});
+
+# Create index
+db.collection.createIndex( { name: -1 } )
+
+# Drop index
+db.accounts.dropIndex( { "tax-id": 1 } )
+
+# Remove All Indexes
+db.accounts.dropIndexes()
+
+``` 
+
 ## Expressive Query Operator
 
 ---
